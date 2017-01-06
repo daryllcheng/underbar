@@ -302,9 +302,9 @@
     var storage = {};
 
     return function() {
-      var args = JSON.stringify(arguments);
-      if (!storage.hasOwnProperty(args)) {
-        storage[args] = func.apply(null, arguments);
+      var args = Array.prototype.slice.call(arguments);
+      if (!storage[args] || Object.keys(storage).length !== Object.keys(args).length) {
+        storage[args] = func.apply(this, args);
       }
       return storage[args];
     };
